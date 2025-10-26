@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Wizard Form View -->
+        <record id="view_combined_billing_wizard_form" model="ir.ui.view">
+            <field name="name">combined.billing.wizard.form</field>
+            <field name="model">combined.billing.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create Combined Vendor Bill">
+                    <group>
+                        <field name="purchase_order_id"
+                               options="{'no_create': True, 'no_open': True}" readonly="1" force_save="1"/>
+                    </group>
+                    <notebook>
+                        <page string="GRNs (Goods Receipt Notes)">
+                            <field name="grn_ids" nolabel="1" options="{'no_create': True}" create="false" edit="false">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="scheduled_date"/>
+                                    <field name="origin"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="action_create_bill"
+                                string="Create Bill"
+                                type="object"
+                                class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to Open Wizard -->
+        <record id="action_combined_billing_wizard" model="ir.actions.act_window">
+            <field name="name">Create Combined Vendor Bill</field>
+            <field name="res_model">combined.billing.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        </record>
+
+    </data>
+</odoo>
