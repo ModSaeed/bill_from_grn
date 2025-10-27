@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <record id="view_picking_form_inherit_create_bill_multi_picking" model="ir.actions.server">
+                <field name="name">Create Bill</field>
+                <field name="model_id" ref="stock.model_stock_picking"/>
+                <field name="binding_model_id" ref="stock.model_stock_picking"/>
+                <field name="state">code</field>
+                <field name="code">action = records.action_create_vendor_bill()</field>
+        </record>
+
+        <record id="action_create_combined_bill_from_grn" model="ir.actions.server">
+                <field name="name">Create Combined Bill from GRNs</field>
+                <field name="model_id" ref="stock.model_stock_picking"/>
+                <field name="binding_model_id" ref="stock.model_stock_picking"/>
+                <field name="state">code</field>
+                <field name="code">action = env['combined.billing.selection.wizard'].action_create_combined_bill()</field>
+        </record>
+
+        <record id="view_picking_form_inherit_vendor_bill_smart_button" model="ir.ui.view">
+            <field name="name">stock.picking.form.vendor.bill.smart.button</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_vendor_bill"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-file-invoice-dollar"
+                            invisible="not invoice_id"
+                            groups="bill_from_grn.group_bill_creator">
+                         <span class="o_stat_text">Vendor Bill</span>
+                        <field name="invoice_id" widget="statinfo" string="Vendor Bill" invisible="1"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
